@@ -23,16 +23,20 @@ export default function Contact() {
 
     setError("");
 
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string;
+
     try {
       await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        serviceId,
+        templateId,
         {
           from_name: form.name,
           from_email: form.email,
           message: form.message,
         },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+        publicKey
       );
 
       setSent(true);
