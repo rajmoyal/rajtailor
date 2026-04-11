@@ -2,7 +2,7 @@
 
 A modern, dark-themed personal portfolio built with **Next.js 14**, **Tailwind CSS**, and **Framer Motion**.
 
-## 🛠 Tech Stack
+## Tech Stack
 
 | Tech | Purpose |
 |------|---------|
@@ -14,7 +14,7 @@ A modern, dark-themed personal portfolio built with **Next.js 14**, **Tailwind C
 
 ---
 
-## 🎨 Design System
+## Design System
 
 - **Primary font**: Sora (headings + body)
 - **Mono font**: JetBrains Mono (code labels, badges)
@@ -23,5 +23,3 @@ A modern, dark-themed personal portfolio built with **Next.js 14**, **Tailwind C
 - **Style**: Glassmorphism cards, gradient text, subtle grid background
 
 ---
-
-*Built with ❤️ by Raj Tailor*
