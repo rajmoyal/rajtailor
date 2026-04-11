@@ -74,13 +74,13 @@ export default function About() {
               {
                 icon: icons[1],
                 title: "Full-Stack Thinking",
-                desc: "From DB schema to pixel-perfect UI — I handle the complete product lifecycle.",
+                desc: "From DB schema to pixel-perfect UI - I handle the complete product lifecycle.",
                 color: "purple",
               },
               {
                 icon: icons[2],
                 title: "Performance First",
-                desc: "Optimized builds, lazy loading, and efficient queries — speed matters.",
+                desc: "Optimized builds, lazy loading, and efficient queries - speed matters.",
                 color: "cyan",
               },
             ].map(({ icon, title, desc, color }) => (
