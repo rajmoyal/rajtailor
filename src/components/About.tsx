@@ -33,7 +33,7 @@ export default function About() {
               ))}
             </div>
 
-            {/* Stack chips */}
+            {/* Stack chips Tech */}
             <div className="mt-8 flex flex-wrap gap-2">
               {["MERN Stack", "Laravel", "Vue.js", "REST APIs", "Docker", "Git"].map(skill => (
                 <span
