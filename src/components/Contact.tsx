@@ -8,47 +8,52 @@ export default function Contact() {
   const [form, setForm]     = useState({ name: "", email: "", message: "" });
   const [sent, setSent]     = useState(false);
   const [error, setError]   = useState("");
-
+  const [loading, setLoading] = useState(false);
+  
   const handleSubmit = async () => {
-    if (!form.name || !form.email || !form.message) {
-      setError("Please fill in all fields.");
-      return;
-    }
+  if (loading) return; // extra safety to prevent spam clicks
 
-    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRe.test(form.email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
+  if (!form.name || !form.email || !form.message) {
+    setError("Please fill in all fields.");
+    return;
+  }
 
-    setError("");
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRe.test(form.email)) {
+    setError("Please enter a valid email address.");
+    return;
+  }
 
-    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
-    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
-    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
+  setError("");
+  setLoading(true);
 
-    try {
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          from_name: form.name,
-          from_email: form.email,
-          message: form.message,
-        },
-        publicKey
-      );
+  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
+  const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
 
-      setSent(true);
-      setForm({ name: "", email: "", message: "" });
+  try {
+    await emailjs.send(
+      serviceId,
+      templateId,
+      {
+        from_name: form.name,
+        from_email: form.email,
+        message: form.message,
+      },
+      publicKey
+    );
 
-      setTimeout(() => setSent(false), 4000);
+    setSent(true);
+    setForm({ name: "", email: "", message: "" });
 
-    } catch (err) {
-      console.error(err);
-      setError("Failed to send message. Try again.");
-    }
-  };
+    setTimeout(() => setSent(false), 4000);
+  } catch (err) {
+    console.error(err);
+    setError("Failed to send message. Try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <section id="contact" className="py-28 bg-bg-secondary relative overflow-hidden">
@@ -172,15 +177,15 @@ export default function Contact() {
                   <p className="text-red-400 text-xs font-mono">{error}</p>
                 )}
 
-                <button
-                  onClick={handleSubmit}
-                  className={`w-full py-3.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 ${
-                    sent
-                      ? "bg-green-500/20 border border-green-500/30 text-green-400"
-                      : "bg-gradient-to-r from-accent-blue to-accent-purple text-white hover:shadow-glow-blue hover:scale-[1.01]"
-                  }`}
-                >
-                  {sent ? (
+                 <button onClick={handleSubmit} disabled={loading} className={`w-full py-3.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed ${
+                    sent ? "bg-green-500/20 border border-green-500/30 text-green-400" : "bg-gradient-to-r from-accent-blue to-accent-purple text-white hover:shadow-glow-blue hover:scale-[1.01]"
+                  }`}>
+                  {loading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Sending...
+                    </>
+                  ) : sent ? (
                     <>
                       <CheckCircle size={16} />
                       Message sent! Check your email client.
